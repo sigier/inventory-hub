@@ -1,10 +1,12 @@
+using Inventory_Hub.Plugins.InMemory;
+using Inventory_Hub.UseCases.PluginInterfaces;
 using Inventory_Hub.WebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents();
-
+builder.Services.AddSingleton<IInventoryRepository, InventoryRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

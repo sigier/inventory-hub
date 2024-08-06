@@ -8,4 +8,8 @@
     <AssemblyName>$(AssemblyName.Replace(' ', '_'))</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Inventory-Hub.Plugins\Inventory-Hub.Plugins.InMemory\Inventory-Hub.Plugins.InMemory.csproj" />
+  </ItemGroup>
+
 </Project>
