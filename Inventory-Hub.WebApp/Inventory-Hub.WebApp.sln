@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory-Hub.CoreBusiness"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inventory-Hub.Plugins", "Inventory-Hub.Plugins", "{95A63C14-0222-4AFF-922D-1E71B71DCB0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory-Hub.Plugins.InMemory", "..\Inventory-Hub.Plugins\Inventory-Hub.Plugins.InMemory\Inventory-Hub.Plugins.InMemory.csproj", "{29533729-4502-4A55-B016-F32EDED5023E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory-Hub.Plugins.InMemory", "..\Inventory-Hub.Plugins\Inventory-Hub.Plugins.InMemory\Inventory-Hub.Plugins.InMemory.csproj", "{29533729-4502-4A55-B016-F32EDED5023E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
