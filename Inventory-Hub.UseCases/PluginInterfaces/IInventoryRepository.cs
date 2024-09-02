@@ -5,5 +5,6 @@ namespace Inventory_Hub.UseCases.PluginInterfaces
     public interface IInventoryRepository
     {
         Task<IEnumerable<Inventory>> GetByNameAsync(string name);
+        Task AddInventoryAsync(Inventory inventory);
     }
 }

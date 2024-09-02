@@ -37,5 +37,19 @@ namespace Inventory_Hub.Plugins.InMemory
 
             return inventories.Where(o => o.InventoryName.Contains(name, StringComparison.OrdinalIgnoreCase));
         }
+
+        public  Task AddInventoryAsync(Inventory inventory)
+        {
+            if (inventories.Any(x => x.InventoryName.Equals(inventory.InventoryName, StringComparison.OrdinalIgnoreCase)))
+            {
+                return Task.CompletedTask;
+            }
+
+            int maxId = inventories.Max(x => x.InventoryId);
+            inventory.InventoryId = maxId+1;
+
+            inventories.Add(inventory);
+            return Task.CompletedTask;
+        }
     }
 }
