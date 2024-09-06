@@ -1,4 +1,5 @@
-﻿using Inventory_Hub.CoreBusiness;
+﻿using System.Security.Cryptography.X509Certificates;
+using Inventory_Hub.CoreBusiness;
 using Inventory_Hub.UseCases.PluginInterfaces;
 
 namespace Inventory_Hub.Plugins.InMemory
@@ -50,6 +51,24 @@ namespace Inventory_Hub.Plugins.InMemory
 
             inventories.Add(inventory);
             return Task.CompletedTask;
+        }
+
+        public async Task UpdateInventoryAsync(Inventory inventory)
+        {
+            if (inventories.Any(x => x.InventoryId != inventory.InventoryId && x.InventoryName.Equals(inventory.InventoryName, StringComparison.OrdinalIgnoreCase)))
+            {
+                return;
+            }
+
+            Inventory? updateInventory = inventories.FirstOrDefault(c => c.InventoryId == inventory.InventoryId);
+            if (updateInventory is not null)
+            {
+                updateInventory.InventoryName = inventory.InventoryName;
+                updateInventory.Price = inventory.Price;
+                updateInventory.Quantity = inventory.Quantity;
+            }
+
+            await Task.CompletedTask;
         }
     }
 }
