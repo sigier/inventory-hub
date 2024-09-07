@@ -7,5 +7,6 @@ namespace Inventory_Hub.UseCases.PluginInterfaces
         Task<IEnumerable<Inventory>> GetByNameAsync(string name);
         Task AddInventoryAsync(Inventory inventory);
         Task UpdateInventoryAsync(Inventory inventory);
+        Task<Inventory?> GetByIdAsync(int inventoryId);
     }
 }

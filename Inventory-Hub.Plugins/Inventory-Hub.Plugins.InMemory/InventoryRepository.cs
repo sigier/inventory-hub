@@ -70,5 +70,10 @@ namespace Inventory_Hub.Plugins.InMemory
 
             await Task.CompletedTask;
         }
+
+        public async Task<Inventory?> GetByIdAsync(int inventoryId)
+        {
+            return await Task.FromResult(inventories.FirstOrDefault(x => x.InventoryId == inventoryId));
+        }
     }
 }
