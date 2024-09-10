@@ -28,7 +28,7 @@
     [Parameter]
     public string? SearchTerm { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         inventories = (await ViewInventoriesByNameUseCase.ExecuteAsync(SearchTerm ?? string.Empty)).ToList();
     }

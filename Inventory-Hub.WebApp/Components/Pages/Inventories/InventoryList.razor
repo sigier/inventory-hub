@@ -6,24 +6,21 @@
 <br />
 <br />
 
-<EditForm Model="SearchTermInventory" FormName="SearchTermInventory">
-    
-    <div class="input-group">
-        <InputText class="form-control" placeholder="Search..." @bind-Value="SearchTermInventory">
-        </InputText>
-        <button type="submit" class="btn btn-success input-group-text">Search</button>
-    </div>
-
-</EditForm>
+<SearchComponent OnSearch="HandleSearch"></SearchComponent>
 <br/>
 
-<InventoryListComponent SearchTerm="@SearchTermInventory" />
+<InventoryListComponent SearchTerm="@searchTermInventory" />
 <br/>
 <a href="/addinventory" class="btn btn-primary">
     Add Inventory
 </a>
 
 @code {
-    [SupplyParameterFromForm]
-    private string? SearchTermInventory { get; set; } = string.Empty;
+
+    private string? searchTermInventory;
+
+    private void HandleSearch(string searchFilter)
+    {
+        searchTermInventory = searchFilter;
+    }
 }
