@@ -8,5 +8,6 @@ namespace Inventory_Hub.UseCases.PluginInterfaces
         Task AddInventoryAsync(Inventory inventory);
         Task UpdateInventoryAsync(Inventory inventory);
         Task<Inventory?> GetByIdAsync(int inventoryId);
+        Task DeleteInventoryByIdAsync(int inventoryId);
     }
 }

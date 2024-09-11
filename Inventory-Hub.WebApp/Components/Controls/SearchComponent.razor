@@ -1,14 +1,18 @@
 ﻿<h3>Search Inventory</h3>
+@{
+    SearchFilter ??= string.Empty;
+}
+<EditForm Enhance="true" Model="SearchFilter" FormName="FormSearch" OnSubmit="Search">
 
-<EditForm Model="SearchFilter" FormName="FormSearch" OnSubmit="Search">
+        <div class="input-group">
+            <InputText class="form-control" placeholder="Search..." @bind-Value="SearchFilter">
+            </InputText>
+            <button type="submit" class="btn btn-success input-group-text">Search</button>
+        </div>
 
-    <div class="input-group">
-        <InputText class="form-control" placeholder="Search..." @bind-Value="SearchFilter">
-        </InputText>
-        <button type="submit" class="btn btn-success input-group-text">Search</button>
-    </div>
+    </EditForm>
 
-</EditForm>
+
 
 @code {
     [SupplyParameterFromForm]

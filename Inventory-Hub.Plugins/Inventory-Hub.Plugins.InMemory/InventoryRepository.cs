@@ -75,5 +75,16 @@ namespace Inventory_Hub.Plugins.InMemory
         {
             return await Task.FromResult(inventories.FirstOrDefault(x => x.InventoryId == inventoryId));
         }
+
+        public async Task DeleteInventoryByIdAsync(int inventoryId)
+        {
+            Inventory? inventory = inventories.FirstOrDefault(x => x.InventoryId == inventoryId);
+            if (inventory is not null)
+            {
+                inventories.Remove(inventory);
+            }
+
+            await Task.CompletedTask;
+        }
     }
 }
