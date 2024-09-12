@@ -2,6 +2,8 @@ using Inventory_Hub.Plugins.InMemory;
 using Inventory_Hub.UseCases.Inventories;
 using Inventory_Hub.UseCases.Inventories.Interfaces;
 using Inventory_Hub.UseCases.PluginInterfaces;
+using Inventory_Hub.UseCases.Products;
+using Inventory_Hub.UseCases.Products.Interfaces;
 using Inventory_Hub.WebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,10 @@ builder.Services.AddTransient<IAddInventoryUseCase, AddInventoryUseCase>();
 builder.Services.AddTransient<IEditInventoryUseCase, EditInventoryUseCase>();
 builder.Services.AddTransient<IViewInventoryByIdUseCase, ViewInventoryByIdUseCase>();
 builder.Services.AddTransient<IDeleteInventoryUseCase, DeleteInventoryUseCase>();
+
+builder.Services.AddSingleton<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IViewProductsByNameUseCase, ViewProductsByNameUseCase>();
+
 
 var app = builder.Build();
 
