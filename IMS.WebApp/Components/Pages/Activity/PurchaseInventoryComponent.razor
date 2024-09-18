@@ -8,11 +8,14 @@
 <h3>Purchase Inventory</h3>
 
 <AutoCompleteComponent Label="Inventory"
-                       SearchFunction="SearchInventory">
+                       SearchFunction="SearchInventory"
+                       OnItemSelected="HandleItemSelected">
 
 </AutoCompleteComponent>
 
 @code {
+
+    private AutoCompleteComponent.ItemViewModel? selectedItem;
 
     private List<AutoCompleteComponent.ItemViewModel>? SearchInventory(string name)
     {
@@ -24,4 +27,10 @@
 
         return list.Select(d => new AutoCompleteComponent.ItemViewModel { Id = d.InventoryId, Name = d.InventoryName }).ToList();
     }
+
+    private void HandleItemSelected(AutoCompleteComponent.ItemViewModel model)
+    {
+        this.selectedItem = model;
+    }
+
 }
