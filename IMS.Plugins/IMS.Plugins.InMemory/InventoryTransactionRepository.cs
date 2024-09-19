@@ -5,21 +5,40 @@ namespace IMS.Plugins.InMemory
 {
     public class InventoryTransactionRepository : IInventoryTransactionRepository
     {
-        public List<InventoryTransaction> inventoryTransactions = new List<InventoryTransaction>();
+        public List<InventoryTransaction> _inventoryTransactions = new List<InventoryTransaction>();
 
-        public void  PurchaseAsync(string purchaseOrderNumber, Inventory inventory, int quantity, string doneBy, double price)
+        public Task ProduceAsync(string productionNumber, Inventory inventory, int quantityToConsume, string doneBy, double price)
         {
-            this.inventoryTransactions.Add(new InventoryTransaction
+            this._inventoryTransactions.Add(new InventoryTransaction
             {
-                PurchaseOrderNumber = purchaseOrderNumber,
+                ProductionNumber = productionNumber,
+                InventoryId = inventory.InventoryId,
+                QuantityBefore = inventory.Quantity,
+                ActivityType = InventoryTransactionType.ProduceProduct,
+                QuantityAfter = inventory.Quantity - quantityToConsume,
+                TransactionDate = DateTime.Now,
+                DoneBy = doneBy,
+                UnitPrice = price
+            });
+
+            return Task.CompletedTask;
+        }
+
+        public Task PurchaseAsync(string poNumber, Inventory inventory, int quantity, string doneBy, double price)
+        {
+            this._inventoryTransactions.Add(new InventoryTransaction
+            {
+                PONumber = poNumber,
                 InventoryId = inventory.InventoryId,
                 QuantityBefore = inventory.Quantity,
                 ActivityType = InventoryTransactionType.PurchaseInventory,
-                QuantityAfter = inventory.Quantity+quantity,
-                UnitPrice = price,
+                QuantityAfter = inventory.Quantity + quantity,
                 TransactionDate = DateTime.Now,
                 DoneBy = doneBy,
+                UnitPrice = price
             });
+
+            return Task.CompletedTask;
         }
     }
 }
