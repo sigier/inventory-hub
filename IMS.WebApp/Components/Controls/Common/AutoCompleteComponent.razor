@@ -3,8 +3,8 @@
     <input type="text"
            class="form-control"
            @bind-value="userInput"
-           @bind-value:event="oninput" 
-           @onkeyup="OnKeyUp"/>
+           @bind-value:event="oninput"
+           @onkeyup="OnKeyup" />
 
 </div>
 @if (searchResults is not null && searchResults.Count > 0)
@@ -32,15 +32,14 @@
     public string Label { get; set; } = string.Empty;
 
     [Parameter]
-    public Func<string, List<ItemViewModel>>? SearchFunction { get; set; }
+    public Func<string, Task<List<ItemViewModel>>>? SearchFunction { get; set; }
 
     [Parameter]
     public EventCallback<ItemViewModel> OnItemSelected { get; set; }
 
     private List<ItemViewModel>? searchResults = null;
+
     private ItemViewModel? selectedItem = null;
-    private int currentItemIndex = -1;
-    private ItemViewModel? currentItem = null;
 
     private string _userInput = string.Empty;
     public string userInput
@@ -52,20 +51,28 @@
 
             if (!string.IsNullOrWhiteSpace(_userInput) && SearchFunction != null)
             {
-                searchResults = SearchFunction(_userInput);
+                ViewItemsAsync();
             }
         }
     }
 
-    public class ItemViewModel
+    private ItemViewModel? currentItem = null;
+    private int currentItemIndex = -1;
+
+    private async Task ViewItemsAsync()
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
+        if (SearchFunction != null)
+        {
+            searchResults = await SearchFunction(_userInput);
+
+            StateHasChanged();
+        }
     }
 
-    private void HandleSelectItem(ItemViewModel item)
+    private void HandleSelectItem(ItemViewModel? item)
     {
         ClearHighlighting();
+
         if (item != null)
         {
             this.selectedItem = item;
@@ -74,6 +81,7 @@
 
             OnItemSelected.InvokeAsync(item);
         }
+
     }
 
     private void ClearHighlighting()
@@ -83,7 +91,7 @@
         currentItemIndex = -1;
     }
 
-    private void OnKeyUp(KeyboardEventArgs e)
+    private void OnKeyup(KeyboardEventArgs e)
     {
         if (searchResults is not null && searchResults.Count > 0 && (e.Code == "ArrowDown" || e.Code == "ArrowUp"))
         {
@@ -108,4 +116,9 @@
         }
     }
 
+    public class ItemViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+    }
 }
