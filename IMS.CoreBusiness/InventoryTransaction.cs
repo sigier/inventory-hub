@@ -5,6 +5,7 @@ namespace IMS.CoreBusiness
     public class InventoryTransaction
     {
         public string PurchaseOrderNumber { get; set; } = string.Empty;
+        public string ProductionOrderNumber { get; set; } = string.Empty;
 
         public int InventoryTransactionId { get; set; }
 
