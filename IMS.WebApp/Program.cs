@@ -1,3 +1,4 @@
+using IMS.Plugins.EFCoreSql;
 using IMS.Plugins.InMemory;
 using IMS.UseCases.Activity;
 using IMS.UseCases.Activity.Interfaces;
@@ -9,17 +10,24 @@ using IMS.UseCases.Products.interfaces;
 using IMS.UseCases.Reports;
 using IMS.UseCases.Reports.Interfaces;
 using IMS.WebApp.Components;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDbContextFactory<IMSContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("InventoryManagement"));
+});
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddSingleton<IInventoryRepository, InventoryRepository>();
-builder.Services.AddSingleton<IProductRepository, ProductRepository>();
-builder.Services.AddSingleton<IInventoryTransactionRepository, InventoryTransactionRepository>();
-builder.Services.AddSingleton<IProductTransactionRepository, ProductTransactionRepository>();
+builder.Services.AddSingleton<IInventoryRepository, InventoryEFCoreRepository>();
+builder.Services.AddSingleton<IProductRepository, ProductEFCoreRepository>();
+builder.Services.AddSingleton<IInventoryTransactionRepository, InventoryTransactionEFCoreRepository>();
+builder.Services.AddSingleton<IProductTransactionRepository, ProductTransactionEFCoreRepository>();
 
 builder.Services.AddTransient<IViewInventoriesByNameUseCase, ViewInventoriesByNameUseCase>();
 builder.Services.AddTransient<IAddInventoryUseCase, AddInventoryUseCase>();
