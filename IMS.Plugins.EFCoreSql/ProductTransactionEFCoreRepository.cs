@@ -57,7 +57,7 @@ namespace IMS.Plugins.EFCoreSql
             //add product transaction
             db.ProductTransactions?.Add(new ProductTransaction
             {
-                ProdutionNumber = productionNumber,
+                ProductionNumber = productionNumber,
                 ProductId = product.ProductId,
                 QuantityBefore = product.Quantity,
                 ActivityType = ProductTransactionType.ProduceProduct,

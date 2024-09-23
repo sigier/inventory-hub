@@ -41,7 +41,7 @@ namespace IMS.Plugins.EFCoreSql
 
             db.InventoryTransactions?.Add(new InventoryTransaction
             {
-                ProdutionNumber = productionNumber,
+                ProductionOrderNumber = productionNumber,
                 InventoryId = inventory.InventoryId,
                 QuantityBefore = inventory.Quantity,
                 ActivityType = InventoryTransactionType.ProduceProduct,
@@ -60,7 +60,7 @@ namespace IMS.Plugins.EFCoreSql
 
             db.InventoryTransactions?.Add(new InventoryTransaction
             {
-                PONumber = poNumber,
+                PurchaseOrderNumber = poNumber,
                 InventoryId = inventory.InventoryId,
                 QuantityBefore = inventory.Quantity,
                 ActivityType = InventoryTransactionType.PurchaseInventory,
