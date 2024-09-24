@@ -1,5 +1,6 @@
 ﻿@page "/editinventory/{invId:int}"
-
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 @inject NavigationManager NavigationManager
 @inject IViewInventoryByIdUseCase ViewInventoryByIdUseCase
 @inject IEditInventoryUseCase EditInventoryUseCase

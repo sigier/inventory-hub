@@ -1,8 +1,9 @@
 ﻿@page "/produce"
-
+@attribute [Authorize]
 @rendermode InteractiveServer
 
 @using static IMS.WebApp.Components.Controls.Common.AutoCompleteComponent
+@using Microsoft.AspNetCore.Authorization
 
 @inject IJSRuntime JSRuntime
 
