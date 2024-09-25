@@ -1,5 +1,5 @@
 ﻿@page "/produce"
-@attribute [Authorize]
+@attribute [Authorize(Policy = "Productions")]
 @rendermode InteractiveServer
 
 @using Microsoft.AspNetCore.Authorization

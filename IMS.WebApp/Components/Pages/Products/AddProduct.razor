@@ -1,6 +1,6 @@
 ﻿@page "/addproduct"
 @using Microsoft.AspNetCore.Authorization
-@attribute [Authorize]
+@attribute [Authorize(Policy = "Productions")]
 @rendermode InteractiveServer
 
 @inject IAddProductUseCase AddProductUseCase

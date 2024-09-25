@@ -1,6 +1,7 @@
 ﻿@page "/addinventory"
 @using Microsoft.AspNetCore.Authorization
-@attribute [Authorize]
+@attribute [Authorize(Policy = "Inventory")]
+
 @inject IAddInventoryUseCase AddInventoryUseCase
 @inject NavigationManager NavigationManager
 
