@@ -1,5 +1,5 @@
-﻿@using static IMS.WebApp.Components.Controls.Common.AutoCompleteComponent
-@using Microsoft.AspNetCore.Authorization
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
 @attribute [Authorize]
 @page "/sell"
 
@@ -10,6 +10,7 @@
 @inject IViewProductsByNameUseCase ViewProductsByNameUseCase
 @inject IViewProductByIdUseCase ViewProductByIdUseCase
 @inject ISellProductUseCase SellProductUseCase
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <h3>Sell Product</h3>
 <br />
@@ -49,6 +50,12 @@
 @code {
     private SellViewModel sellViewModel = new SellViewModel();
     private Product? selectedProduct;
+    private AuthenticationState? authenticationState;
+
+    protected override async Task OnInitializedAsync()
+    {
+        authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    }
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -79,12 +86,17 @@
 
     private async Task Sell()
     {
+        string userName = string.Empty;
+        if (authenticationState?.User?.Identity?.IsAuthenticated ?? false)
+        {
+            userName = authenticationState?.User?.Identity?.Name ?? string.Empty;
+        }
         await SellProductUseCase.ExecuteAsync(
             this.sellViewModel.SalesOrderNumber,
             this.selectedProduct,
             this.sellViewModel.QuantityToSell,
             this.sellViewModel.UnitPrice,
-            "Frank");
+            userName);
 
         this.sellViewModel = new SellViewModel();
         this.selectedProduct = null;

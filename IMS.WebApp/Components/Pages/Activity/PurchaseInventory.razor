@@ -1,7 +1,7 @@
 ﻿@page "/purchase"
 @attribute [Authorize]
-@using static IMS.WebApp.Components.Controls.Common.AutoCompleteComponent
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
 
 @rendermode InteractiveServer
 
@@ -10,6 +10,8 @@
 @inject IViewInventoriesByNameUseCase ViewInventoriesByNameUseCase
 @inject IViewInventoryByIdUseCase ViewInventoryByIdUseCase
 @inject IPurchaseInventoryUseCase PurchaseInventoryUseCase
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
 
 <h3>Purchase Inventory</h3>
 <br />
@@ -51,8 +53,13 @@
 
 @code {
     private PurchaseViewModel purchaseViewModel = new PurchaseViewModel();
-
     private Inventory? selectedInventory = null;
+    private AuthenticationState? authenticationState;
+
+    protected override async Task OnInitializedAsync()
+    {
+        authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    }
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -82,11 +89,17 @@
 
     private async Task Purchase()
     {
+        string userName = string.Empty;
+        if (authenticationState?.User?.Identity?.IsAuthenticated ?? false)
+        {
+            userName = authenticationState?.User?.Identity?.Name ?? string.Empty;
+        }
+
         await PurchaseInventoryUseCase.ExecuteAsync(
             this.purchaseViewModel.PONumber,
             selectedInventory,
             this.purchaseViewModel.QuantityToPurchase,
-            "Frank"
+            userName
             );
 
         this.purchaseViewModel = new PurchaseViewModel();
