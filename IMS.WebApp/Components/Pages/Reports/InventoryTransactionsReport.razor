@@ -1,12 +1,14 @@
 ﻿@page "/inventoryreport"
 
+@using IMS.UseCases.Reports.Interfaces
+
 @rendermode InteractiveServer
 
 @inject IJSRuntime JSRuntime
 @inject ISearchInventoryTransactionsUseCase SearchInventoryTransactionsUseCase
 
 <h3>Inventory Transactions</h3>
-<br />
+<br/>
 
 <div id="printarea">
     <div class="row">
@@ -40,7 +42,7 @@
         </div>
     </div>
 
-    @if (inventoryTransactions != null && inventoryTransactions.Any())
+    @if (inventoryTransactions != null && inventoryTransactions.Count() > 0)
     {
         <table class="table">
             <thead>

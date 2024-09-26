@@ -1,13 +1,14 @@
 ﻿using IMS.WebApp.ViewModels;
 using System.ComponentModel.DataAnnotations;
 
-namespace IMS.WebApp.ViewModelValidations
+namespace IMS.WebApp.ViewModelsValidations
 {
     public class Produce_EnsureEnoughInventoryQuantity : ValidationAttribute
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            if (validationContext.ObjectInstance is ProduceViewModel produceViewModel)
+            var produceViewModel = validationContext.ObjectInstance as ProduceViewModel;
+            if ( produceViewModel is not null)
             {
                 if (produceViewModel.Product != null && produceViewModel.Product.ProductInventories != null)
                 {

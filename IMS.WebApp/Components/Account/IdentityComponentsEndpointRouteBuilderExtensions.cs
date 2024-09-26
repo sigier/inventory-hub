@@ -1,3 +1,6 @@
+using IMS.WebApp.Data;
+using IMS.WebApp.Components.Account.Pages;
+using IMS.WebApp.Components.Account.Pages.Manage;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -6,9 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System.Security.Claims;
 using System.Text.Json;
-using IMS.WebApp.Components.Account.Pages;
-using IMS.WebApp.Components.Account.Pages.Manage;
-using IMS.WebApp.Data;
 
 namespace Microsoft.AspNetCore.Routing
 {

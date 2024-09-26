@@ -1,19 +1,21 @@
 ﻿@page "/produce"
+
 @attribute [Authorize(Policy = "Productions")]
+
 @rendermode InteractiveServer
 
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.Authorization
+@using static IMS.WebApp.Components.Controls.Common.AutoCompleteComponent
+@using IMS.UseCases.Activity.Interfaces
 
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime JSRuntime
 
 @inject IViewProductsByNameUseCase ViewProductsByNameUseCase
 @inject IViewProductByIdUseCase ViewProductByIdUseCase
 @inject IProduceProductUseCase ProduceProductUseCase
-@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <h3>Produce Product</h3>
-<br />
+<br/>
 
 <EditForm id="produce-form" Model="produceViewModel" OnValidSubmit="Produce">
     <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -45,11 +47,12 @@
 @code {
     private ProduceViewModel produceViewModel = new ProduceViewModel();
     private Product? selectedProduct;
-    private AuthenticationState? authenticationState;
+
+    private AuthenticationState? authState;
 
     protected override async Task OnInitializedAsync()
     {
-        authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();        
     }
 
     protected override void OnAfterRender(bool firstRender)
@@ -81,15 +84,16 @@
     private async Task Produce()
     {
         string userName = string.Empty;
-        if (authenticationState?.User?.Identity?.IsAuthenticated ?? false)
+
+        if (authState?.User?.Identity?.IsAuthenticated ?? false)
         {
-            userName = authenticationState?.User?.Identity?.Name ?? string.Empty;
+            userName = authState.User.Identity.Name??string.Empty;
         }
 
         await ProduceProductUseCase.ExecuteAsync(
             this.produceViewModel.ProductionNumber,
             selectedProduct,
-            this.produceViewModel.QuantityToProduce, 
+            this.produceViewModel.QuantityToProduce,
             userName
             );
 

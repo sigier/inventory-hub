@@ -1,4 +1,6 @@
 using IMS.Plugins.EFCoreSql;
+using IMS.WebApp.Components.Account;
+using IMS.WebApp.Data;
 using IMS.Plugins.InMemory;
 using IMS.UseCases.Activity;
 using IMS.UseCases.Activity.Interfaces;
@@ -10,8 +12,6 @@ using IMS.UseCases.Products.interfaces;
 using IMS.UseCases.Reports;
 using IMS.UseCases.Reports.Interfaces;
 using IMS.WebApp.Components;
-using IMS.WebApp.Components.Account;
-using IMS.WebApp.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Hosting.StaticWebAssets;
@@ -22,6 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+// Register services for Identity
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
@@ -33,14 +34,13 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Inventory", policy => policy.RequireClaim("Department", "InventoryManagement"));
     options.AddPolicy("Sales", policy => policy.RequireClaim("Department", "Sales"));
     options.AddPolicy("Purchasers", policy => policy.RequireClaim("Department", "Purchasing"));
-    options.AddPolicy("Productions", policy => policy.RequireClaim("Department", "ProductionManagement"));
+    options.AddPolicy("Productions", policy => policy.RequireClaim("Department", "ProducitonManagement"));
 });
-
 builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultScheme = IdentityConstants.ApplicationScheme;
-        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-    })
+{
+    options.DefaultScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+})
     .AddIdentityCookies();
 
 var connectionString = builder.Configuration.GetConnectionString("IMSAccounts") ?? throw new InvalidOperationException("Connection string 'IMSAccounts' not found.");
@@ -91,9 +91,11 @@ builder.Services.AddTransient<IAddProductUseCase, AddProductUseCase>();
 builder.Services.AddTransient<IDeleteProductUseCase, DeleteProductUseCase>();
 builder.Services.AddTransient<IEditProductUseCase, EditProductUseCase>();
 builder.Services.AddTransient<IViewProductByIdUseCase, ViewProductByIdUseCase>();
+
 builder.Services.AddTransient<IPurchaseInventoryUseCase, PurchaseInventoryUseCase>();
 builder.Services.AddTransient<IProduceProductUseCase, ProduceProductUseCase>();
 builder.Services.AddTransient<ISellProductUseCase, SellProductUseCase>();
+
 builder.Services.AddTransient<ISearchInventoryTransactionsUseCase, SearchInventoryTransactionsUseCase>();
 builder.Services.AddTransient<ISearchProductTransactionsUseCase, SearchProductTransactionsUseCase>();
 
@@ -118,5 +120,8 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+// Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
+
 app.Run();

@@ -1,4 +1,4 @@
-﻿﻿.search-result {
+﻿.search-result {
     overflow-y: auto;
     max-height: 300px;
     border: 1px solid silver;
@@ -8,13 +8,13 @@
 div ul {
     list-style-type: none;
     margin-bottom: 5px;
-    padding-left: 10px;
+    padding-left:10px;
 }
 
-    div ul li {
-        cursor: pointer;
-    }
+div ul li {
+    cursor: pointer;
+}
 
-.selected {
-    background-color: antiquewhite;
+.selected{
+    background-color:antiquewhite;
 }

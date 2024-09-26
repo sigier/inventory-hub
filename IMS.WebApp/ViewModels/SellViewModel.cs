@@ -1,6 +1,6 @@
 ﻿using IMS.CoreBusiness;
+using IMS.WebApp.ViewModelsValidations;
 using System.ComponentModel.DataAnnotations;
-using IMS.WebApp.ViewModelValidations;
 
 namespace IMS.WebApp.ViewModels
 {

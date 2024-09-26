@@ -1,14 +1,14 @@
 ﻿@page "/editinventory/{invId:int}"
-@using Microsoft.AspNetCore.Authorization
+
 @attribute [Authorize(Policy = "Inventory")]
+
 @inject NavigationManager NavigationManager
 @inject IViewInventoryByIdUseCase ViewInventoryByIdUseCase
 @inject IEditInventoryUseCase EditInventoryUseCase
 
 <h3>Edit Inventory</h3>
-<br />
+<br/>
 @if (this.inventory is not null)
-
 {
     <EditForm Model="inventory" FormName="formInventory" OnValidSubmit="Update">
         <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -52,71 +52,42 @@
 @code {
 
     [Parameter]
-
     public int InvId { get; set; }
 
-
-
     [SupplyParameterFromForm]
-
     private InventoryViewModel? inventory { get; set; }
 
-
-
     protected override async Task OnParametersSetAsync()
-
     {
-
         if (this.inventory is null)
-
         {
-
             var inv = await ViewInventoryByIdUseCase.ExecuteAsync(this.InvId);
-
             inventory = new InventoryViewModel
-
-                {
+            {
                     InventoryId = inv.InventoryId,
                     InventoryName = inv.InventoryName,
                     Price = inv.Price,
                     Quantity = inv.Quantity
-
-                };
-
+            };
         }
-
-
 
     }
 
-
-
     private async Task Update()
-
     {
-
         if (inventory is not null)
-
         {
-
             var inv = new Inventory
-
-                {
+            {
                     InventoryId = inventory.InventoryId,
                     InventoryName = inventory.InventoryName,
                     Price = inventory.Price,
                     Quantity = inventory.Quantity
-
-                };
-
-
+            };
 
             await EditInventoryUseCase.ExecuteAsync(inv);
-
             NavigationManager.NavigateTo("/inventories");
-
-        }
-
+        }        
     }
 
 }

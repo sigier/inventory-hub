@@ -1,19 +1,21 @@
-﻿@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.Authorization
-@attribute [Authorize(Policy = "Sales")]
+﻿@using static IMS.WebApp.Components.Controls.Common.AutoCompleteComponent
+@using IMS.UseCases.Activity.Interfaces
+
 @page "/sell"
+
+@attribute [Authorize(Policy = "Sales")]
 
 @rendermode InteractiveServer
 
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime JSRuntime
 
 @inject IViewProductsByNameUseCase ViewProductsByNameUseCase
 @inject IViewProductByIdUseCase ViewProductByIdUseCase
 @inject ISellProductUseCase SellProductUseCase
-@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <h3>Sell Product</h3>
-<br />
+<br/>
 
 <EditForm id="sell-form" Model="sellViewModel" OnValidSubmit="Sell">
     <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -50,11 +52,11 @@
 @code {
     private SellViewModel sellViewModel = new SellViewModel();
     private Product? selectedProduct;
-    private AuthenticationState? authenticationState;
+    private AuthenticationState? authState;
 
     protected override async Task OnInitializedAsync()
     {
-        authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
     }
 
     protected override void OnAfterRender(bool firstRender)
@@ -86,11 +88,14 @@
 
     private async Task Sell()
     {
+
         string userName = string.Empty;
-        if (authenticationState?.User?.Identity?.IsAuthenticated ?? false)
+
+        if (authState?.User?.Identity?.IsAuthenticated ?? false)
         {
-            userName = authenticationState?.User?.Identity?.Name ?? string.Empty;
+            userName = authState.User.Identity.Name ?? string.Empty;
         }
+
         await SellProductUseCase.ExecuteAsync(
             this.sellViewModel.SalesOrderNumber,
             this.selectedProduct,
